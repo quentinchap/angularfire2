@@ -15,7 +15,12 @@ The `firebaseAuthConfig` services takes in an `AuthProvider` and an `AuthMethod`
 ```ts
 bootstrap(<MyApp>Component, [
   FIREBASE_PROVIDERS,
-  defaultFirebase('https://<your-firebase-app>.firebaseio.com'),
+  defaultFirebase({
+    apiKey: "<your-key>",
+    authDomain: "<your-project-authdomain>",
+    databaseURL: "<your-database-URL>",
+    storageBucket: "<your-storage-bucket>",
+  }),
   firebaseAuthConfig({
     provider: AuthProviders.Google,
     method: AuthMethods.Redirect
@@ -23,7 +28,7 @@ bootstrap(<MyApp>Component, [
 ]);
 ```
 
-**Example boostrap**
+**Example bootstrap**
 ```ts
 import { bootstrap } from '@angular/platform-browser-dynamic';
 import { enableProdMode } from '@angular/core';
@@ -41,7 +46,9 @@ if (environment.production) {
 
 bootstrap(<MyApp>Component, [
   FIREBASE_PROVIDERS,
-  defaultFirebase('https://<your-firebase-app>.firebaseio.com'),
+  defaultFirebase({
+   // config object 
+  }),
   firebaseAuthConfig({
     provider: AuthProviders.Twitter,
     method: AuthMethods.Redirect
@@ -124,7 +131,7 @@ import { AngularFire, AuthProviders, AuthMethods } from 'angularfire2';
   moduleId: module.id,
   selector: 'app',
   template: `
-  <div> {{ (af.auth | async).uid }} </div>
+  <div> {{ (af.auth | async)?.uid }} </div>
   <button (click)="login()">Login With Twitter</button>
   <button (click)="overrideLogin()">Login Anonymously</button>
   `,
